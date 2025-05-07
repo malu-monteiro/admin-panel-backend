@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model WorkingHours {
+  id        Int      @id @default(autoincrement())
+  startTime String
+  endTime   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([startTime, endTime])
+  @@map("working_hours")
+}
+
+model Service {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Availability {
+  id           Int           @id @default(autoincrement())
+  date         DateTime      @unique
+  isBlocked    Boolean       @default(false)
+  blockedSlots BlockedSlot[]
+}
+
+model BlockedSlot {
+  id             Int          @id @default(autoincrement())
+  startTime      String
+  endTime        String
+  availabilityId Int
+  availability   Availability @relation(fields: [availabilityId], references: [id], onDelete: Cascade)
+}
+
+model Admin {
+  id                     String                   @id @default(cuid())
+  name                   String?
+  email                  String                   @unique
+  password               String
+  emailVerified          Boolean                  @default(false)
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  PasswordResetToken     PasswordResetToken[]
+  EmailVerificationToken EmailVerificationToken[]
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  adminId   String
+  admin     Admin    @relation(fields: [adminId], references: [id])
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("password_reset_tokens")
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  adminId   String
+  newEmail  String?
+  admin     Admin    @relation(fields: [adminId], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("email_verification_tokens")
+}
