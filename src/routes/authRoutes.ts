@@ -24,6 +24,12 @@ interface LoginBody {
   password: string;
 }
 
+interface JwtPayload {
+  adminId: string;
+  exp?: number;
+  iat?: number;
+}
+
 if (!process.env.JWT_SECRET) {
   throw new Error("JWT_SECRET not defined!");
 }
@@ -62,8 +68,8 @@ export async function authRoutes(fastify: FastifyInstance) {
 
   fastify.decorateRequest("admin", null);
 
-  fastify.register(async (fastify) => {
-    const createToken = (adminId: string) => {
+  await fastify.register(async (fastify) => {
+    const createToken = (adminId: string): string => {
       return jwt.sign({ adminId }, JWT_SECRET, {
         expiresIn: "15m",
       });
@@ -76,42 +82,50 @@ export async function authRoutes(fastify: FastifyInstance) {
       try {
         const authHeader = request.headers.authorization;
         if (!authHeader) {
-          reply.status(401).send({ error: "Token not provided" });
-          return;
+          return reply.status(401).send({ error: "Token not provided" });
         }
 
         const token = authHeader.split(" ")[1];
         if (!token) {
-          reply.status(401).send({ error: "Invalid token format" });
-          return;
+          return reply.status(401).send({ error: "Invalid token format" });
         }
 
         try {
-          const decoded = jwt.verify(token, JWT_SECRET) as {
-            adminId: string;
-          };
+          const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
+
+          const now = Date.now().valueOf() / 1000;
+          if (typeof decoded.exp !== "undefined" && decoded.exp < now) {
+            return reply.status(401).send({ error: "Token expired " });
+          }
+
           const admin = await prisma.admin.findUnique({
             where: { id: decoded.adminId },
           });
+
           if (!admin) {
-            reply.status(401).send({ error: "Admin not found" });
-            return;
+            return reply.status(401).send({ error: "Admin not found" });
           }
 
           request.admin = admin;
         } catch (jwtError) {
-          fastify.log.error("JWT Verification Error:", jwtError);
-          reply.status(401).send({ error: "Invalid or expired token" });
-          return;
+          fastify.log.error("JWT Error:", {
+            error: jwtError,
+            token: token.substring(0, 10) + "...",
+          });
+
+          if (jwtError instanceof jwt.TokenExpiredError) {
+            return reply.status(401).send({ error: "Token expired" });
+          }
+
+          return reply.status(401).send({ error: "Invalid token" });
         }
       } catch (error) {
-        fastify.log.error("Authentication Error:", error);
-        reply.status(500).send({ error: "Authentication error" });
-        return;
+        fastify.log.error("Auth Middleware Error:", error);
+        return reply.status(500).send({ error: "Authentication error" });
       }
     };
 
-    fastify.post("/login", {
+    fastify.post("/sign-in", {
       config: {
         rateLimit: rateLimitConfig.login,
       },
@@ -365,16 +379,6 @@ export async function authRoutes(fastify: FastifyInstance) {
       }
     );
 
-    fastify.get(
-      "/admin-panel",
-      {
-        preHandler: authenticate,
-      },
-      async (_request, reply) => {
-        reply.send({ message: "Access authorized" });
-      }
-    );
-
     fastify.patch(
       "/update",
       {
@@ -392,15 +396,6 @@ export async function authRoutes(fastify: FastifyInstance) {
         };
 
         try {
-          const existingAdmin = await prisma.admin.findUnique({
-            where: { email: newEmail },
-            select: { id: true },
-          });
-
-          if (existingAdmin && existingAdmin.id !== adminId) {
-            return reply.code(409).send({ error: "Email already in use" });
-          }
-
           if (newEmail) {
             const admin = await prisma.admin.findUnique({
               where: { id: request.admin?.id },
@@ -408,9 +403,6 @@ export async function authRoutes(fastify: FastifyInstance) {
             });
 
             if (admin?.email !== newEmail) {
-              if (!adminId) {
-                return reply.status(401).send({ error: "Unauthorized" });
-              }
               const { token } = await generateEmailVerificationToken(
                 adminId,
                 newEmail

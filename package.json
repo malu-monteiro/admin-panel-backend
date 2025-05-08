@@ -3,11 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/app.ts",
-    "test": "playwright test",
-    "test:auth": "playwright test auth.e2e-spec.ts",
-    "test:password": "NODE_ENV=test playwright test password.e2e-spec.ts",
-    "test:report": "playwright show-report"
+    "dev": "ts-node src/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -28,7 +24,6 @@
     "nodemailer": "^6.10.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.52.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.14.1",

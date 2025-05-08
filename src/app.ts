@@ -13,16 +13,15 @@ const fastify = Fastify({
 });
 
 fastify.register(fastifyCors, {
-  origin:
-    process.env.NODE_ENV === "development" ? true : [process.env.FRONTEND_URL!],
-  methods: ["GET", "POST", "PATCH", "DELETE"],
-  allowedHeaders: ["Authorization", "Content-Type"],
+  origin: [process.env.FRONTEND_URL || "http://localhost:5173"],
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Origin", "Content-Type", "Authorization", "Accept"],
   exposedHeaders: ["Authorization"],
   credentials: true,
 });
 
-fastify.register(authRoutes, { prefix: "/api" });
-fastify.register(availabilityRoutes, { prefix: "/api" });
+fastify.register(authRoutes, { prefix: "/auth" });
+fastify.register(availabilityRoutes, { prefix: "/availability" });
 
 const start = async () => {
   try {
