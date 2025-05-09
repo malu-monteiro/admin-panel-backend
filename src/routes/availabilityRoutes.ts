@@ -237,13 +237,11 @@ export async function availabilityRoutes(fastify: FastifyInstance) {
             id: block.id,
             date: block.date,
             isBlocked: block.isBlocked,
-            blockedSlots: block.isBlocked
-              ? []
-              : block.blockedSlots.map((slot) => ({
-                  id: slot.id,
-                  startTime: slot.startTime,
-                  endTime: slot.endTime,
-                })),
+            blockedSlots: block.blockedSlots.map((slot) => ({
+              id: slot.id,
+              startTime: slot.startTime,
+              endTime: slot.endTime,
+            })),
           }));
         } catch (error) {
           fastify.log.error("Error fetching blocks:", error);
@@ -273,10 +271,6 @@ export async function availabilityRoutes(fastify: FastifyInstance) {
               error: "Day is already fully blocked",
             });
           }
-
-          await prisma.blockedSlot.deleteMany({
-            where: { availabilityId: existingBlock?.id },
-          });
 
           const availability = await prisma.availability.upsert({
             where: { date: parsedDate },
