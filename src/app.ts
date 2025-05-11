@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 
 import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
+import fastifyCookie from "@fastify/cookie";
 
 import { authRoutes } from "./routes/authRoutes";
 import { availabilityRoutes } from "./routes/availabilityRoutes";
@@ -18,6 +19,11 @@ fastify.register(fastifyCors, {
   allowedHeaders: ["Origin", "Content-Type", "Authorization", "Accept"],
   exposedHeaders: ["Authorization"],
   credentials: true,
+});
+
+fastify.register(fastifyCookie, {
+  secret: process.env.COOKIE_SECRET,
+  parseOptions: {},
 });
 
 fastify.register(authRoutes, { prefix: "/auth" });

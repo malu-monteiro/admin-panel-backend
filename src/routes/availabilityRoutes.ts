@@ -26,8 +26,10 @@ interface BlockRequest {
 
 const MIN_SERVICE_NAME_LENGTH = 3;
 const MAX_SERVICE_NAME_LENGTH = 50;
+const SERVICE_NAME_REGEX = /^[a-zA-ZÀ-ÿ0-9\s\-_]+$/;
+
 const nameRegex = /^[a-zA-ZÀ-ÿ\s]+$/;
-const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):00$/;
 const DEFAULT_TIMEZONE = "America/Sao_Paulo";
 
 export async function availabilityRoutes(fastify: FastifyInstance) {
@@ -53,7 +55,9 @@ export async function availabilityRoutes(fastify: FastifyInstance) {
           return workingHours;
         } catch (error) {
           fastify.log.error("Error fetching working hours:", error);
-          return reply.status(500).send({ error: "Server error" });
+          return reply
+            .status(500)
+            .send({ error: "Error fetching working hours" });
         }
       }
     );
@@ -71,7 +75,7 @@ export async function availabilityRoutes(fastify: FastifyInstance) {
         ) {
           return reply
             .status(400)
-            .send({ error: "Invalid time format. Use HH:mm" });
+            .send({ error: "Invalid time format. Use HH:00" });
         }
 
         if (startTime >= endTime) {
@@ -113,10 +117,9 @@ export async function availabilityRoutes(fastify: FastifyInstance) {
             orderBy: { name: "asc" },
           });
 
-          return reply.send({
-            data: services,
-          });
+          return services;
         } catch (error) {
+          fastify.log.error("Error fetching services:", error);
           return reply.status(500).send({
             error: "Failed to load services",
           });
@@ -132,39 +135,44 @@ export async function availabilityRoutes(fastify: FastifyInstance) {
 
           if (!name || name.trim().length < MIN_SERVICE_NAME_LENGTH) {
             return reply.status(400).send({
-              error: `Invalid service name (minimum ${MIN_SERVICE_NAME_LENGTH} characters)`,
+              error: `Service name must have at least ${MIN_SERVICE_NAME_LENGTH} characters`,
             });
           }
 
           if (name.trim().length > MAX_SERVICE_NAME_LENGTH) {
             return reply.status(400).send({
-              error: `Service name too long (maximum ${MAX_SERVICE_NAME_LENGTH} characters)`,
+              error: `Service name exceeds ${MAX_SERVICE_NAME_LENGTH} characters`,
             });
           }
 
-          if (!nameRegex.test(name.trim())) {
-            return reply
-              .status(400)
-              .send({ error: "Service name contains invalid characters" });
+          if (!SERVICE_NAME_REGEX.test(name.trim())) {
+            return reply.status(400).send({
+              error:
+                "Invalid characters (allowed: letters, numbers, spaces, hyphens)",
+            });
           }
 
-          const normalizedName = name.trim().toLowerCase();
-          const allServices = await prisma.service.findMany();
-          const exists = allServices.some(
-            (s) => s.name.trim().toLowerCase() === normalizedName
-          );
+          const existingService = await prisma.service.findFirst({
+            where: {
+              name: {
+                equals: name.trim().toLocaleLowerCase(),
+              },
+            },
+          });
 
-          if (exists)
-            return reply.status(400).send({ error: "Service already exists" });
+          if (existingService) {
+            return reply.status(409).send({ error: "Service already exists" });
+          }
 
           const service = await prisma.service.create({
             data: { name: name.trim() },
           });
 
-          return reply.status(201).send({ data: service });
+          return reply.status(201).send(service);
         } catch (error) {
-          return reply.status(400).send({
-            error: "Service already exists",
+          fastify.log.error("Error creating service:", error);
+          return reply.status(500).send({
+            error: "Error creating service",
           });
         }
       }
@@ -185,10 +193,19 @@ export async function availabilityRoutes(fastify: FastifyInstance) {
             where: { id: serviceId },
           });
 
-          return { message: "Service removed successfully" };
+          return { message: "Service deleted successfully" };
         } catch (error) {
           fastify.log.error("Error deleting service:", error);
-          return reply.status(404).send({ error: "Service not found" });
+          const prismaError = error as { code?: string };
+          if (prismaError.code === "P2025") {
+            return reply.status(404).send({
+              error: "Service not found",
+            });
+          }
+
+          return reply.status(500).send({
+            error: "Error deleting service",
+          });
         }
       }
     );
@@ -363,11 +380,6 @@ export async function availabilityRoutes(fastify: FastifyInstance) {
         }
 
         try {
-          await prisma.blockedSlot.delete({ where: { id: parsedId } });
-          return { message: "Time slot removed successfully" };
-        } catch (error) {
-          fastify.log.error("Error removing block slot:", error);
-
           const availability = await prisma.availability.findUnique({
             where: { id: parsedId },
           });
@@ -377,11 +389,14 @@ export async function availabilityRoutes(fastify: FastifyInstance) {
               where: { id: parsedId },
               data: { isBlocked: false },
             });
-
-            return { message: "Day block removed successfully" };
+            return reply.send({ message: "Day block removed successfully" });
           }
 
-          return reply.status(404).send({ error: "Block not found" });
+          await prisma.blockedSlot.delete({ where: { id: parsedId } });
+          return { message: "Time slot removed successfully" };
+        } catch (error) {
+          fastify.log.error("Error removing block slot:", error);
+          return { message: "Day block removed successfully" };
         }
       }
     );

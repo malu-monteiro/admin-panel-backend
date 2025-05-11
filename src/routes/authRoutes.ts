@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
 import prisma from "../prisma";
 import nodemailer from "nodemailer";
 import fastifyRateLimit from "@fastify/rate-limit";
@@ -10,6 +9,8 @@ import { Admin } from "@prisma/client";
 import { generateResetToken } from "../utils/passwordReset";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { generateEmailVerificationToken } from "../utils/emailVerification";
+
+import jwt, { JwtPayload as DefaultJwtPayload } from "jsonwebtoken";
 
 declare module "fastify" {
   interface FastifyRequest {
@@ -28,6 +29,10 @@ interface JwtPayload {
   adminId: string;
   exp?: number;
   iat?: number;
+}
+
+interface CustomJwtPayload extends DefaultJwtPayload {
+  adminId: string;
 }
 
 if (!process.env.JWT_SECRET) {
@@ -141,13 +146,52 @@ export async function authRoutes(fastify: FastifyInstance) {
             return reply.status(401).send({ error: "Invalid credentials" });
           }
 
-          const token = createToken(admin.id);
-          reply.send({ token, email: admin.email });
+          const accessToken = createToken(admin.id);
+          const refreshToken = jwt.sign({ adminId: admin.id }, JWT_SECRET, {
+            expiresIn: "7d",
+          });
+
+          reply
+            .setCookie("refreshToken", refreshToken, {
+              httpOnly: true,
+              secure: true,
+              sameSite: "strict",
+              path: "/auth/refresh-token",
+            })
+            .send({ token: accessToken });
         } catch (error) {
           fastify.log.error(error);
           reply.code(500).send({ error: "Error during login" });
         }
       },
+    });
+
+    fastify.post("/refresh-token", async (request, reply) => {
+      try {
+        const refreshToken =
+          request.cookies.refreshToken || request.headers["x-refresh-token"];
+
+        if (!refreshToken || Array.isArray(refreshToken)) {
+          return reply
+            .status(401)
+            .send({ error: "Refresh token not provided" });
+        }
+
+        const decoded = jwt.verify(
+          refreshToken,
+          JWT_SECRET
+        ) as CustomJwtPayload;
+
+        const admin = await prisma.admin.findUnique({
+          where: { id: decoded.adminId },
+        });
+        if (!admin) throw new Error("Admin not found");
+
+        const newAccessToken = createToken(admin.id);
+        reply.send({ token: newAccessToken });
+      } catch (error) {
+        reply.status(401).send({ error: "Refresh token invalid or expired" });
+      }
     });
 
     fastify.post("/forgot-password", {
@@ -370,7 +414,6 @@ export async function authRoutes(fastify: FastifyInstance) {
           reply.send({
             name: admin.name,
             email: admin.email,
-            avatar: "",
           });
         } catch (error) {
           fastify.log.error("Error fetching user data:", error);
