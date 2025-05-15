@@ -8,8 +8,8 @@ import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
 
-import { authRoutes } from "./routes/authRoutes";
-import { availabilityRoutes } from "./routes/availability";
+import { authenticationRoutes } from "./modules/authentication";
+import { availabilityRoutes } from "./modules/availability";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -33,7 +33,7 @@ fastify.register(fastifyCookie, {
   parseOptions: {},
 });
 
-fastify.register(authRoutes, { prefix: "/auth" });
+fastify.register(authenticationRoutes, { prefix: "/auth" });
 fastify.register(availabilityRoutes, { prefix: "/availability" });
 
 const start = async () => {
@@ -43,7 +43,7 @@ const start = async () => {
       host: "0.0.0.0",
     });
     console.log(
-      `Servidor rodando em http://localhost:${process.env.PORT || 3000}`
+      `Server running in http://localhost:${process.env.PORT || 3000}`
     );
   } catch (err) {
     fastify.log.error(err);

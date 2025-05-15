@@ -49,9 +49,8 @@ model Admin {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  emailVerificationTokens EmailVerificationToken[]
   passwordResetTokens     PasswordResetToken[]     @relation("PasswordResetTokens")
-  emailVerificationTokens EmailVerificationToken[] @relation("EmailVerificationTokens")
-  EmailVerificationToken  EmailVerificationToken[]
 }
 
 model PasswordResetToken {
@@ -71,10 +70,9 @@ model EmailVerificationToken {
   token     String   @unique
   adminId   String
   newEmail  String?
-  admin     Admin    @relation("EmailVerificationTokens", fields: [adminId], references: [id], onDelete: Cascade)
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   createdAt DateTime @default(now())
-  Admin     Admin    @relation(fields: [adminId], references: [id])
 
   @@map("email_verification_tokens")
 }
