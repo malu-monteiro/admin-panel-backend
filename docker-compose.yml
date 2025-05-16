@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ./prisma:/app/prisma
+    environment:
+      - PORT=3000
+      - DATABASE_URL=file:/app/prisma/dev.db
+      - FRONTEND_URL=http://localhost:5173
+      - NODE_ENV=development
+      - COOKIE_SECRET=your_secret_here

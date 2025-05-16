@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/app.ts"
+    "dev": "ts-node src/app.ts",
+    "docker:up": "docker-compose up",
+    "docker:build": "docker-compose up --build",
+    "docker:down": "docker-compose down"
   },
   "keywords": [],
   "author": "",
