@@ -1,6 +1,6 @@
-import { ServiceRepository } from "../repositories/services-repository";
-
 import { AVAILABILITY_CONSTANTS } from "../constants/availability";
+
+import { ServiceRepository } from "../repositories/services-repository";
 
 export const ServicesService = {
   async getAll() {

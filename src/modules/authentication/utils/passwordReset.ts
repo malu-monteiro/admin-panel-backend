@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import prisma from "../../../prisma";
+import prisma from "@/prisma";
 
 const ONE_HOUR_IN_MS = 3600000;
 const TOKEN_BYTE_LENGTH = 32;
