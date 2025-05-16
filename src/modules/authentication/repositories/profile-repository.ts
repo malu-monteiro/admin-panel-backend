@@ -1,5 +1,7 @@
 import prisma from "../../../prisma";
 
+import { UpdateProfileBody } from "../types/authentication";
+
 export const ProfileRepository = {
   findAdminById(id: string) {
     return prisma.admin.findUnique({
@@ -15,12 +17,15 @@ export const ProfileRepository = {
     });
   },
 
-  updateAdminProfile(id: string, data: { name?: string }) {
+  updateAdminProfile(id: string, data: UpdateProfileBody) {
     return prisma.admin.update({ where: { id }, data });
   },
 
-  findAdminByEmail(id: string) {
-    return prisma.admin.findUnique({ where: { id }, select: { email: true } });
+  findAdminByEmail(email: string) {
+    return prisma.admin.findUnique({
+      where: { email },
+      select: { email: true },
+    });
   },
 
   updateAdminPassword(id: string, hashedPassword: string) {

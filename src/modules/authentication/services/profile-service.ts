@@ -20,13 +20,16 @@ export const ProfileService = {
     let requiresVerification = false;
 
     if (newEmail) {
-      const admin = await ProfileRepository.findAdminByEmail(adminId);
+      const admin = await ProfileRepository.findAdminById(adminId);
+
       if (admin?.email !== newEmail) {
         const { token } = await generateEmailVerificationToken(
           adminId,
           newEmail
         );
+
         const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+
         await EmailService.sendNewEmailVerificationEmail(
           newEmail,
           verificationLink
@@ -53,14 +56,15 @@ export const ProfileService = {
     { currentPassword, newPassword }: UpdatePasswordBody
   ) {
     const admin = await ProfileRepository.findAdminById(adminId);
+
     if (!admin || !(await compare(currentPassword, admin.password))) {
       throw new Error("Current password is incorrect");
     }
 
-    // Validar a nova senha
     PasswordValidator.validateOrThrow(newPassword);
 
     const hashedPassword = await hash(newPassword, 10);
+
     await ProfileRepository.updateAdminPassword(adminId, hashedPassword);
   },
 };
