@@ -153,7 +153,7 @@ Contributions are welcome! Feel free to open issues or submit pull requests. �
 
 ---
 
-Made with ❤️ by [malu-monteiro](https://github.com/malu-monteiro)
+Made with 💜 by [malu-monteiro](https://github.com/malu-monteiro)
 
 
 
