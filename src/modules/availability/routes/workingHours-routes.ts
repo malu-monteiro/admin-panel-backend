@@ -60,4 +60,31 @@ export async function workingHoursRoutes(fastify: FastifyInstance) {
       }
     }
   );
+
+  fastify.put<{ Params: { id: string }; Body: UpdateWorkingHoursBody }>(
+    "/:id",
+    async (request, reply) => {
+      const { id } = request.params;
+      const { startTime, endTime } = request.body;
+
+      const validationError = validateWorkingHours(startTime, endTime);
+      if (validationError) {
+        return reply.status(400).send({ error: validationError });
+      }
+
+      try {
+        const updated = await WorkingHoursController.updateWorkingHoursById(
+          Number(id),
+          startTime,
+          endTime
+        );
+        return reply.status(200).send(updated);
+      } catch (error) {
+        request.log.error("Error updating working hours:", error);
+        return reply
+          .status(500)
+          .send({ error: "Error updating working hours" });
+      }
+    }
+  );
 }

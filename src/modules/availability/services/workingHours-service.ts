@@ -26,4 +26,8 @@ export const WorkingHoursService = {
     const created = await WorkingHoursRepository.create(startTime, endTime);
     return { workingHours: created, created: true };
   },
+
+  async updateWorkingHoursById(id: number, startTime: string, endTime: string) {
+    return WorkingHoursRepository.update(id, startTime, endTime);
+  },
 };

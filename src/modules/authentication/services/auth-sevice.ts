@@ -66,13 +66,10 @@ export const AuthService = {
     PasswordValidator.validateOrThrow(newPassword);
 
     const resetToken = await AuthRepository.findPasswordResetToken(token);
-
     if (!resetToken || resetToken.used) throw new Error("Invalid token");
-
     if (resetToken.expiresAt < new Date()) throw new Error("Expired token");
 
     const hashedPassword = await hash(newPassword, 10);
-
     await prisma.$transaction([
       AuthRepository.updateAdminPassword(resetToken.adminId, hashedPassword),
       AuthRepository.markResetTokenUsed(resetToken.id),
@@ -83,7 +80,6 @@ export const AuthService = {
     const admin = await AuthRepository.findAdminById(adminId);
 
     if (!admin) throw new Error("Admin not found");
-
     if (admin.emailVerified) throw new Error("Email already verified");
 
     const { token } = await generateEmailVerificationToken(adminId);

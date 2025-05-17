@@ -1,3 +1,8 @@
+export interface CreateWorkingHoursBody {
+  startTime: string;
+  endTime: string;
+}
+
 export interface UpdateWorkingHoursBody {
   startTime: string;
   endTime: string;
