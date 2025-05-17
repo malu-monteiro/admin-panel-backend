@@ -2,7 +2,7 @@ import { FastifyRequest, FastifyReply } from "fastify";
 
 import jwt from "jsonwebtoken";
 
-import prisma from "@/prisma";
+import prisma from "../../../prisma";
 
 import { JwtPayload } from "../types/authentication";
 
