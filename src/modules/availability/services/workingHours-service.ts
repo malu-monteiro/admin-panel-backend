@@ -15,9 +15,15 @@ export const WorkingHoursService = {
     const existing = await WorkingHoursRepository.findLatest();
 
     if (existing) {
-      return WorkingHoursRepository.update(existing.id, startTime, endTime);
+      const updated = await WorkingHoursRepository.update(
+        existing.id,
+        startTime,
+        endTime
+      );
+      return { workingHours: updated, created: false };
     }
 
-    return WorkingHoursRepository.create(startTime, endTime);
+    const created = await WorkingHoursRepository.create(startTime, endTime);
+    return { workingHours: created, created: true };
   },
 };
