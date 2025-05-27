@@ -11,7 +11,7 @@ import {
   GetBlocksQuery,
 } from "../types/availability";
 
-import { AVAILABILITY_CONSTANTS } from "../constants/availability";
+import { SYSTEM_TIMEZONE } from "../constants/timezone";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -33,19 +33,17 @@ export async function blockRoutes(fastify: FastifyInstance) {
         }
 
         const parsedStart = dayjs
-          .tz(startDate, "YYYY-MM-DD", AVAILABILITY_CONSTANTS.DEFAULT_TIMEZONE)
+          .tz(startDate, "YYYY-MM-DD", SYSTEM_TIMEZONE)
           .toDate();
         const parsedEnd = dayjs
-          .tz(endDate, "YYYY-MM-DD", AVAILABILITY_CONSTANTS.DEFAULT_TIMEZONE)
+          .tz(endDate, "YYYY-MM-DD", SYSTEM_TIMEZONE)
           .toDate();
 
         const blocks = await BlockController.getBlocks(parsedStart, parsedEnd);
 
         return blocks.map((block) => ({
           ...block,
-          date: dayjs(block.date)
-            .tz(AVAILABILITY_CONSTANTS.DEFAULT_TIMEZONE)
-            .toISOString(),
+          date: dayjs(block.date).tz(SYSTEM_TIMEZONE).toISOString(),
         }));
       } catch (error) {
         fastify.log.error("Error fetching blocks:", error);
