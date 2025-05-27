@@ -64,7 +64,6 @@ export const ProfileService = {
     PasswordValidator.validateOrThrow(newPassword);
 
     const hashedPassword = await hash(newPassword, 10);
-
     await ProfileRepository.updateAdminPassword(adminId, hashedPassword);
   },
 };

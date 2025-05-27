@@ -43,12 +43,9 @@ export async function blockRoutes(fastify: FastifyInstance) {
 
         return blocks.map((block) => ({
           ...block,
-          date: block.date.toISOString(),
-          blockedSlots: block.blockedSlots.map((slot) => ({
-            ...slot,
-            startTime: slot.startTime,
-            endTime: slot.endTime,
-          })),
+          date: dayjs(block.date)
+            .tz(AVAILABILITY_CONSTANTS.DEFAULT_TIMEZONE)
+            .toISOString(),
         }));
       } catch (error) {
         fastify.log.error("Error fetching blocks:", error);

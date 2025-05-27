@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 
+import { SYSTEM_TIMEZONE } from "../constants/timezone";
+
 import { CreateBlockBody } from "../types/availability";
 
 import { BlockRepository } from "../repositories/blocks-repository";
-
-import { AVAILABILITY_CONSTANTS } from "../constants/availability";
 
 dayjs.extend(timezone);
 
@@ -15,13 +15,7 @@ export const BlockService = {
   },
 
   async createBlock(date: Date, startTime?: string, endTime?: string) {
-    const parsedDate = dayjs
-      .tz(
-        typeof date === "string" ? date : dayjs(date).format("YYYY-MM-DD"),
-        AVAILABILITY_CONSTANTS.DEFAULT_TIMEZONE
-      )
-      .startOf("day")
-      .toDate();
+    const parsedDate = dayjs(date).tz(SYSTEM_TIMEZONE).startOf("day").toDate();
 
     const existingBlock = await BlockRepository.findBlockByDate(parsedDate);
 
@@ -65,7 +59,8 @@ export const BlockService = {
 
   async createBlockFromBody(body: CreateBlockBody) {
     const { date, startTime, endTime } = body;
-    return this.createBlock(new Date(date), startTime, endTime);
+    const parsedDate = dayjs(date).tz(SYSTEM_TIMEZONE).startOf("day").toDate();
+    return this.createBlock(parsedDate, startTime, endTime);
   },
 
   async deleteBlock(type: "day" | "slot", id: number) {
