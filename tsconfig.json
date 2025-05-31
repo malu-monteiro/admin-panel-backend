@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["src/*"]
     },
     "typeRoots": ["./node_modules/@types", "src/modules/availability/types"],
     "target": "ES2020",
