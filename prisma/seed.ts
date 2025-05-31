@@ -12,23 +12,14 @@ async function main() {
     create: {
       email: "admin@teste.com",
       name: "Admin",
-      password: password,
-    },
-  });
-
-  await prisma.workingHours.upsert({
-    where: { id: 1 },
-    update: {},
-    create: {
-      startTime: "08:00",
-      endTime: "18:00",
+      password,
     },
   });
 }
 
 main()
   .catch((e) => {
-    console.error("Erro no seed:", e);
+    console.error("Seed error:", e);
     process.exit(1);
   })
   .finally(async () => {

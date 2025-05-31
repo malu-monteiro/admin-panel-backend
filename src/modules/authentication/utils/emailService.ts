@@ -1,25 +1,8 @@
 import transporter from "./emailTransporter";
 
-import { EmailTemplateParams } from "../types/authentication";
+import { emailTemplates } from "@/emails/templates";
 
 const SYSTEM_EMAIL = '"Pawfaction" <no-reply@example.com>';
-
-const emailTemplates = {
-  passwordReset: ({ link }: EmailTemplateParams) => ({
-    subject: "Password Reset",
-    html: `<p>Click on the link to reset your password: <a href="${link}">${link}</a></p>`,
-  }),
-
-  emailVerification: ({ link }: EmailTemplateParams) => ({
-    subject: "Verify your email",
-    html: `<p>Click here to verify: <a href="${link}">${link}</a></p>`,
-  }),
-
-  newEmailVerification: ({ link }: EmailTemplateParams) => ({
-    subject: "Verify your new email",
-    html: `<p>Click to verify: <a href="${link}">${link}</a></p>`,
-  }),
-};
 
 export const EmailService = {
   async sendPasswordResetEmail(email: string, resetLink: string) {

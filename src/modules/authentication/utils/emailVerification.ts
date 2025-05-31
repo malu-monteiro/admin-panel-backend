@@ -6,7 +6,7 @@ const ONE_HOUR_IN_MS = 3600000;
 const TOKEN_BYTE_LENGTH = 32;
 
 export const generateEmailVerificationToken = async (
-  adminId: string,
+  adminId: number,
   newEmail?: string
 ) => {
   const token = randomBytes(TOKEN_BYTE_LENGTH).toString("hex");

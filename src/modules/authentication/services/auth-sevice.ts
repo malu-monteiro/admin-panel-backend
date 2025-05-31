@@ -76,7 +76,7 @@ export const AuthService = {
     ]);
   },
 
-  async sendVerificationEmail(adminId: string) {
+  async sendVerificationEmail(adminId: number) {
     const admin = await AuthRepository.findAdminById(adminId);
 
     if (!admin) throw new Error("Admin not found");

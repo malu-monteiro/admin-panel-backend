@@ -33,7 +33,7 @@ CREATE TABLE "BlockedSlot" (
 
 -- CreateTable
 CREATE TABLE "Admin" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
@@ -44,9 +44,9 @@ CREATE TABLE "Admin" (
 
 -- CreateTable
 CREATE TABLE "password_reset_tokens" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "token" TEXT NOT NULL,
-    "adminId" TEXT NOT NULL,
+    "adminId" INTEGER NOT NULL,
     "expiresAt" DATETIME NOT NULL,
     "used" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -55,9 +55,9 @@ CREATE TABLE "password_reset_tokens" (
 
 -- CreateTable
 CREATE TABLE "email_verification_tokens" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "token" TEXT NOT NULL,
-    "adminId" TEXT NOT NULL,
+    "adminId" INTEGER NOT NULL,
     "newEmail" TEXT,
     "expiresAt" DATETIME NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

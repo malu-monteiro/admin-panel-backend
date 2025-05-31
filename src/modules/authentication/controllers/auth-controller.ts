@@ -15,7 +15,7 @@ export const AuthController = {
     reply: FastifyReply
   ) {
     try {
-      const { accessToken, refreshToken } = await AuthService.signIn(
+      const { accessToken, refreshToken, admin } = await AuthService.signIn(
         request.body
       );
 
@@ -24,9 +24,15 @@ export const AuthController = {
           httpOnly: true,
           secure: true,
           sameSite: "strict",
-          path: "/auth/refresh-token",
+          path: "/",
         })
-        .send({ token: accessToken });
+        .send({
+          data: {
+            token: accessToken,
+            email: admin.email,
+            name: admin.name,
+          },
+        });
     } catch (error: any) {
       request.log.error(error);
       reply.status(401).send({ error: error.message || "Invalid credentials" });

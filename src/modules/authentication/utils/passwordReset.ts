@@ -4,7 +4,7 @@ import prisma from "../../../prisma";
 const ONE_HOUR_IN_MS = 3600000;
 const TOKEN_BYTE_LENGTH = 32;
 
-export const generateResetToken = async (adminId: string) => {
+export const generateResetToken = async (adminId: number) => {
   await prisma.passwordResetToken.deleteMany({
     where: { adminId },
   });

@@ -3,7 +3,7 @@ import prisma from "../../../prisma";
 import { UpdateProfileBody } from "../types/authentication";
 
 export const ProfileRepository = {
-  findAdminById(id: string) {
+  findAdminById(id: number) {
     return prisma.admin.findUnique({
       where: { id },
       select: {
@@ -17,7 +17,7 @@ export const ProfileRepository = {
     });
   },
 
-  updateAdminProfile(id: string, data: UpdateProfileBody) {
+  updateAdminProfile(id: number, data: UpdateProfileBody) {
     return prisma.admin.update({ where: { id }, data });
   },
 
@@ -28,7 +28,7 @@ export const ProfileRepository = {
     });
   },
 
-  updateAdminPassword(id: string, hashedPassword: string) {
+  updateAdminPassword(id: number, hashedPassword: string) {
     return prisma.admin.update({
       where: { id },
       data: { password: hashedPassword },

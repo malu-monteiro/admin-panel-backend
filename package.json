@@ -8,6 +8,9 @@
     "docker:build": "docker-compose up --build",
     "docker:down": "docker-compose down"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

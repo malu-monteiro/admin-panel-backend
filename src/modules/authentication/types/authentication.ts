@@ -1,11 +1,11 @@
+import "fastify";
+
 import { Admin } from "@prisma/client";
 
 import { JwtPayload as DefaultJwtPayload } from "jsonwebtoken";
 
-import { FastifyRequest as FastifyRequestBase } from "fastify";
-
 declare module "fastify" {
-  interface FastifyRequest extends FastifyRequestBase {
+  interface FastifyRequest {
     admin: Admin;
   }
 }
@@ -16,7 +16,7 @@ export interface LoginBody {
 }
 
 export interface JwtPayload extends DefaultJwtPayload {
-  adminId: string;
+  adminId: number;
 }
 
 export interface ResetPasswordBody {

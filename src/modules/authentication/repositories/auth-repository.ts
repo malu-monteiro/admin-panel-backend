@@ -5,7 +5,7 @@ export const AuthRepository = {
     return prisma.admin.findUnique({ where: { email } });
   },
 
-  findAdminById(id: string) {
+  findAdminById(id: number) {
     return prisma.admin.findUnique({ where: { id } });
   },
 
@@ -23,14 +23,14 @@ export const AuthRepository = {
     });
   },
 
-  updateAdminPassword(id: string, hashedPassword: string) {
+  updateAdminPassword(id: number, hashedPassword: string) {
     return prisma.admin.update({
       where: { id },
       data: { password: hashedPassword },
     });
   },
 
-  markResetTokenUsed(id: string) {
+  markResetTokenUsed(id: number) {
     return prisma.passwordResetToken.update({
       where: { id },
       data: { used: true },
@@ -44,14 +44,14 @@ export const AuthRepository = {
     });
   },
 
-  updateAdminEmailVerified(id: string, newEmail?: string) {
+  updateAdminEmailVerified(id: number, newEmail?: string) {
     const data = newEmail
       ? { email: newEmail, emailVerified: true }
       : { emailVerified: true };
     return prisma.admin.update({ where: { id }, data });
   },
 
-  deleteEmailVerificationToken(id: string) {
+  deleteEmailVerificationToken(id: number) {
     return prisma.emailVerificationToken.delete({ where: { id } });
   },
 };

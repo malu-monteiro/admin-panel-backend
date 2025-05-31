@@ -9,12 +9,12 @@ import { ProfileRepository } from "../repositories/profile-repository";
 import { UpdateProfileBody, UpdatePasswordBody } from "../types/authentication";
 
 export const ProfileService = {
-  async getProfile(adminId: string) {
+  async getProfile(adminId: number) {
     return ProfileRepository.findAdminById(adminId);
   },
 
   async updateProfile(
-    adminId: string,
+    adminId: number,
     { email: newEmail, name }: UpdateProfileBody
   ) {
     let requiresVerification = false;
@@ -52,7 +52,7 @@ export const ProfileService = {
   },
 
   async updatePassword(
-    adminId: string,
+    adminId: number,
     { currentPassword, newPassword }: UpdatePasswordBody
   ) {
     const admin = await ProfileRepository.findAdminById(adminId);

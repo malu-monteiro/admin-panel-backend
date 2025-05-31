@@ -30,7 +30,9 @@ export async function authenticate(
     }
 
     const admin = await prisma.admin.findUnique({
-      where: { id: decoded.adminId },
+      where: {
+        id: decoded.adminId,
+      },
     });
 
     if (!admin) {
