@@ -30,3 +30,12 @@ export interface CreateServiceBody {
 export interface DeleteServiceParams {
   id: string;
 }
+
+export interface AppointmentConfirmationEmailData {
+  fullName: string;
+  email: string;
+  service: string;
+  date: string;
+  time: string;
+  message?: string;
+}
