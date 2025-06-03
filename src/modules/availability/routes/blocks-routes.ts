@@ -41,10 +41,12 @@ export async function blockRoutes(fastify: FastifyInstance) {
 
         const blocks = await BlockController.getBlocks(parsedStart, parsedEnd);
 
-        return blocks.map((block) => ({
-          ...block,
-          date: dayjs(block.date).tz(SYSTEM_TIMEZONE).toISOString(),
-        }));
+        return reply.status(200).send(
+          blocks.map((block) => ({
+            ...block,
+            date: dayjs(block.date).tz(SYSTEM_TIMEZONE).toISOString(),
+          }))
+        );
       } catch (error) {
         fastify.log.error("Error fetching blocks:", error);
         return reply.status(500).send({ error: "Error fetching blocks" });
