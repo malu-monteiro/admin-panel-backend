@@ -1,27 +1,34 @@
-# Admin Panel Backend
+<h1 align="center">
+Admin Panel Backend
+</h1>
 
+<div align="center">
 Backend for an online scheduling system, developed with Node.js, Fastify, Prisma, and SQLite.
+</div>
+<br>
+<p align="center">
 
-![Node.js](https://img.shields.io/badge/Nodejs-white?style=for-the-badge&logo=nodedotjs&logoColor=black)
-![Fastify](https://img.shields.io/badge/Fastify-white?style=for-the-badge&logo=fastify&logoColor=black)
-![Prisma](https://img.shields.io/badge/Prisma-white?style=for-the-badge&logo=prisma&logoColor=black)
-![SQLite](https://img.shields.io/badge/SQLite-white?style=for-the-badge&logo=sqlite&logoColor=black)
+<img src="https://img.shields.io/badge/Node.js-22.14.1-339933?style=for-the-badge&logo=nodedotjs&logoColor=339933" alt="Node.js" />
+<img src="https://img.shields.io/badge/Fastify-5.2.1-000000?style=for-the-badge&logo=fastify&logoColor=000000" alt="Fastify" />
+<img src="https://img.shields.io/badge/Prisma-6.4.1-2D3748?style=for-the-badge&logo=prisma&logoColor=2D3748" alt="Prisma" />
+<img src="https://img.shields.io/badge/SQLite-3-blue?style=for-the-badge&logo=sqlite&logoColor=blue" alt="SQLite" />
+</p>
 
 
 ---
 
 ## Table of Contents
 
-- [Prerequisites](#prerequisites)  
-- [Installation](#installation)  
-- [Running the Application](#running-the-application)  
-- [Database Management](#database-management)  
-- [Environment Variables](#environment-variables)  
-- [Technologies Used](#technologies-used)  
+- [✅ Prerequisites](#-prerequisites)  
+- [📥 Installation](#-installation)  
+- [🚀 Running the Application](#-running-the-application)  
+- [💾 Database Management](#-database-management)
+- [🔧 Environment Variables](#-environment-variables)  
+- [💻 Technologies Used](#-technologies-used)  
 
 ---
 
-## Prerequisites
+## ✅ Prerequisites
 
 Before you begin, make sure you have installed:
 
@@ -31,7 +38,7 @@ Before you begin, make sure you have installed:
 
 ---
 
-## Installation
+## 📥 Installation
 
 ### Option 1: Running Locally (without Docker)
 
@@ -83,7 +90,7 @@ npm run docker:down
 
 ---
 
-## Running the Application
+## 🚀 Running the Application
 
 By default, the backend will be available at:
 
@@ -91,7 +98,7 @@ http://localhost:3000
 
 ---
 
-## Database Management
+## 💾 Database Management
 Prisma Studio
 To visually browse and edit your database, run:
 
@@ -108,7 +115,7 @@ npx ts-node seed.ts
 
 ---
 
-## Environment Variables
+## 🔧 Environment Variables
 
 Create a `.env` file in the backend root directory based on `.env.example` with the following variables:
 ```bash
@@ -135,7 +142,7 @@ EMAIL_PASSWORD=your_email_password
 
 ---
 
-## Technologies Used
+## 💻 Technologies Used
 
 - [Node.js](https://nodejs.org/)  
 - [Fastify](https://www.fastify.io/)  
