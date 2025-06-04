@@ -3,7 +3,7 @@ import timezone from "dayjs/plugin/timezone";
 
 import { SYSTEM_TIMEZONE } from "../constants/timezone";
 
-import { CreateBlockBody } from "../types/availability";
+import { CreateBlockBody } from "../types";
 
 import { BlockRepository } from "../repositories/blocks-repository";
 

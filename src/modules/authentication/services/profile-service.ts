@@ -6,7 +6,7 @@ import { generateEmailVerificationToken } from "../utils/emailVerification";
 
 import { ProfileRepository } from "../repositories/profile-repository";
 
-import { UpdateProfileBody, UpdatePasswordBody } from "../types/authentication";
+import { UpdateProfileBody, UpdatePasswordBody } from "../types";
 
 export const ProfileService = {
   async getProfile(adminId: number) {

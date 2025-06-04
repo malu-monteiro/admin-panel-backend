@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
-import { UpdateWorkingHoursBody } from "../types/availability";
+import { UpdateWorkingHoursBody } from "../types";
 import { AVAILABILITY_CONSTANTS } from "../constants/availability";
 
 import { WorkingHoursController } from "../controllers/workingHours-controller";

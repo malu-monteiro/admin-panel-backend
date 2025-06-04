@@ -1,5 +1,5 @@
 import { BlockService } from "../services/blocks-service";
-import { CreateBlockBody } from "../types/availability";
+import { CreateBlockBody } from "../types";
 
 export const BlockController = {
   getBlocks: BlockService.getBlocks,

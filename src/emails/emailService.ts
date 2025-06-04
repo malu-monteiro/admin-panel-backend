@@ -1,32 +1,31 @@
 import { transporter } from "./mailer";
 
-import { AppointmentConfirmationEmailData } from "@/modules/availability/types/availability";
+import {
+  emailTemplates,
+  AppointmentConfirmationTemplateParams,
+} from "./templates";
+
+import { AppointmentConfirmationEmailData } from "@/modules/appointments/types";
 
 export const emailService = {
   async sendAppointmentConfirmation(data: AppointmentConfirmationEmailData) {
-    const { fullName, email, service, date, time, message } = data;
+    const templateParams: AppointmentConfirmationTemplateParams = {
+      fullName: data.fullName,
+      service: data.service,
+      date: data.date,
+      time: data.time,
+      message: data.message,
+    };
 
-    const emailSubject = `Appointment Confirmation: ${service}`;
-    const emailHtmlContent = `
-      <p>Hello <strong>${fullName}</strong>,</p>
-      <p>Your appointment has been successfully confirmed!</p>
-      <p><strong>Service Details:</strong></p> 
-      <ul>
-          <li><strong>Service:</strong> ${service}</li>
-          <li><strong>Date:</strong> ${date}</li>
-          <li><strong>Time:</strong> ${time}</li>
-      </ul>
-      ${message ? `<p><strong>Your Message:</strong> "${message}"</p>` : ""} 
-      <p>We look forward to seeing you!</p> 
-      <p>Sincerely,<br>Pawfaction</p> 
-    `;
+    const { subject, html } =
+      emailTemplates.appointmentConfirmation(templateParams);
 
     const mailOptions = {
       from: `Pawfaction <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: emailSubject,
-      html: emailHtmlContent,
-      text: emailHtmlContent.replace(/<[^>]*>?/gm, ""),
+      to: data.email,
+      subject: subject,
+      html: html,
+      text: html.replace(/<[^>]*>?/gm, ""),
     };
 
     try {

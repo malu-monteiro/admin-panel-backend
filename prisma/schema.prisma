@@ -76,3 +76,18 @@ model EmailVerificationToken {
 
     @@map("email_verification_tokens")
 }
+
+model Appointment {
+    id        String   @id @default(uuid())
+    service   String
+    date      DateTime
+    time      String
+    name      String
+    email     String
+    message   String?
+    status    String   @default("PENDING")
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("appointments")
+}

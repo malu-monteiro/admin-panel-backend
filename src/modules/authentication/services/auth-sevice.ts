@@ -6,7 +6,7 @@ import {
   ForgotPasswordBody,
   ResetPasswordBody,
   VerifyEmailBody,
-} from "../types/authentication";
+} from "../types";
 
 import prisma from "../../../prisma";
 

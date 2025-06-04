@@ -1,6 +1,6 @@
 import prisma from "../../../prisma";
 
-import { UpdateProfileBody } from "../types/authentication";
+import { UpdateProfileBody } from "../types";
 
 export const ProfileRepository = {
   findAdminById(id: number) {

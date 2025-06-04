@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
 import { ServiceController } from "../controllers/services-controller";
 
-import { CreateServiceBody, DeleteServiceParams } from "../types/availability";
+import { CreateServiceBody, DeleteServiceParams } from "../types";
 
 export async function serviceRoutes(fastify: FastifyInstance) {
   fastify.get("/", async (request: FastifyRequest, reply: FastifyReply) => {

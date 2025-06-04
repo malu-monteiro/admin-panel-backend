@@ -1,4 +1,5 @@
-import { EmailTemplateParams } from "@/modules/authentication/types/authentication";
+import { EmailTemplateParams } from "@/modules/authentication/types";
+import { AppointmentConfirmationTemplateParams } from "@/modules/appointments/types";
 
 export const emailTemplates = {
   passwordReset: ({ link }: EmailTemplateParams) => ({
@@ -138,4 +139,80 @@ export const emailTemplates = {
     </table>
   `,
   }),
+
+  appointmentConfirmation: ({
+    fullName,
+    service,
+    date,
+    time,
+    message,
+  }: AppointmentConfirmationTemplateParams) => ({
+    subject: `Appointment Confirmed: ${service} at Pawfaction`,
+    html: `
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background: #f6f8fa; padding: 40px 0;">
+      <tr>
+        <td align="center">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 480px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 32px;">
+            <tr>
+              <td style="font-family: Arial, Helvetica, sans-serif; color: #222; font-size: 22px; font-weight: bold; padding-bottom: 16px; text-align: center;">
+                Appointment Confirmed!
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family: Arial, Helvetica, sans-serif; color: #444; font-size: 16px; padding-bottom: 24px;">
+                Hello <strong>${fullName}</strong>,<br><br>
+                Your appointment at Pawfaction has been successfully confirmed. We look forward to seeing you!
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family: Arial, Helvetica, sans-serif; color: #222; font-size: 18px; font-weight: bold; padding-bottom: 8px;">
+                Service Details:
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family: Arial, Helvetica, sans-serif; color: #444; font-size: 16px; padding-bottom: 16px;">
+                <ul>
+                  <li style="margin-bottom: 8px;"><strong>Service:</strong> ${service}</li>
+                  <li style="margin-bottom: 8px;"><strong>Date:</strong> ${date}</li>
+                  <li style="margin-bottom: 8px;"><strong>Time:</strong> ${time}</li>
+                </ul>
+              </td>
+            </tr>
+            ${
+              message
+                ? `
+            <tr>
+              <td style="font-family: Arial, Helvetica, sans-serif; color: #222; font-size: 18px; font-weight: bold; padding-bottom: 8px;">
+                Your Message:
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family: Arial, Helvetica, sans-serif; color: #444; font-size: 16px; padding-bottom: 24px;">
+                "${message}"
+              </td>
+            </tr>
+            `
+                : ""
+            }
+            <tr>
+              <td style="font-family: Arial, Helvetica, sans-serif; color: #888; font-size: 13px; text-align: center; padding-top: 24px; border-top: 1px solid #eee;">
+                If you have any questions, please contact us.<br><br>
+                <span style="font-size: 11px;">
+                  &copy; ${new Date().getFullYear()} Pawfaction. All rights reserved.<br>
+                  <a href="https://github.com/malu-monteiro" 
+                    style="color: #222; text-decoration: none;"
+                    target="_blank" rel="noopener noreferrer" 
+                    aria-label="GitHub - malu-monteiro">
+                    malu-monteiro
+                  </a>
+                </span>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    `,
+  }),
 };
+export { AppointmentConfirmationTemplateParams };

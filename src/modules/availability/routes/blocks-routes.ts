@@ -5,11 +5,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
 import { BlockController } from "../controllers/blocks-controller";
-import {
-  CreateBlockBody,
-  DeleteBlockParams,
-  GetBlocksQuery,
-} from "../types/availability";
+import { CreateBlockBody, DeleteBlockParams, GetBlocksQuery } from "../types";
 
 import { SYSTEM_TIMEZONE } from "../constants/timezone";
 

@@ -5,7 +5,7 @@ import {
   LoginBody,
   ResetPasswordBody,
   VerifyEmailBody,
-} from "../types/authentication";
+} from "../types";
 
 import { AuthService } from "../services/auth-sevice";
 

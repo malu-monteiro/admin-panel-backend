@@ -10,6 +10,8 @@ import fastifyCookie from "@fastify/cookie";
 
 import { authenticationRoutes } from "./modules/authentication";
 import { availabilityRoutes } from "./modules/availability";
+import { appointmentRoutes } from "./modules/appointments/routes";
+import { analyticsRoutes } from "./modules/analyctics/routes";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -35,6 +37,8 @@ fastify.register(fastifyCookie, {
 
 fastify.register(authenticationRoutes, { prefix: "/auth" });
 fastify.register(availabilityRoutes, { prefix: "/availability" });
+fastify.register(appointmentRoutes, { prefix: "/appointments" });
+fastify.register(analyticsRoutes, { prefix: "/analytics" });
 
 const start = async () => {
   try {

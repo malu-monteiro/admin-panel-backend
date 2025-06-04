@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 
 import { ProfileService } from "../services/profile-service";
 
-import { UpdatePasswordBody, UpdateProfileBody } from "../types/authentication";
+import { UpdatePasswordBody, UpdateProfileBody } from "../types";
 
 export const ProfileController = {
   async getMe(request: FastifyRequest, reply: FastifyReply) {

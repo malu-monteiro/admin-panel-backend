@@ -64,6 +64,20 @@ CREATE TABLE "email_verification_tokens" (
     CONSTRAINT "email_verification_tokens_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "Admin" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- CreateTable
+CREATE TABLE "appointments" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "service" TEXT NOT NULL,
+    "date" DATETIME NOT NULL,
+    "time" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "message" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'PENDING',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "working_hours_startTime_endTime_key" ON "working_hours"("startTime", "endTime");
 
