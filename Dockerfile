@@ -1,5 +1,9 @@
 FROM node:20-alpine
 
+ARG DATABASE_URL
+
+ENV DATABASE_URL=$DATABASE_URL
+
 # Set the working directory inside the container
 WORKDIR /app
 
