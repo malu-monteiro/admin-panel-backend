@@ -1,12 +1,14 @@
 {
   "name": "admin-panel",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
     "dev": "ts-node -r tsconfig-paths/register src/app.ts",
     "docker:up": "docker-compose up",
     "docker:build": "docker-compose up --build",
-    "docker:down": "docker-compose down"
+    "docker:down": "docker-compose down",
+    "build": "tsc",
+    "start": "node dist/app.js"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -29,6 +31,7 @@
     "jsonwebtoken": "^9.0.2",
     "mailhog": "^4.16.0",
     "nodemailer": "^6.10.1",
+    "pg": "^8.16.0",
     "zod": "^3.24.4"
   },
   "devDependencies": {
