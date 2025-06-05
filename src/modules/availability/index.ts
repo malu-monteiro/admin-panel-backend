@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 
-import { workingHoursRoutes } from "./routes/workingHours-routes";
+import { workingHoursRoutes } from "./routes/working-hours-routes";
 import { serviceRoutes } from "./routes/services-routes";
 import { blockRoutes } from "./routes/blocks-routes";
 
