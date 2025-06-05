@@ -8,7 +8,7 @@
     "docker:build": "docker-compose up --build",
     "docker:down": "docker-compose down",
     "build": "tsc",
-    "build:seed": "tsc prisma/seed.ts --outDir dist --esModuleInterop --module commonjs",
+    "build:seed": "tsc prisma/seed.ts --outDir dist/prisma --esModuleInterop --module commonjs",
     "start": "npx prisma migrate deploy && npx prisma db seed && node dist/app.js"
   },
   "prisma": {
