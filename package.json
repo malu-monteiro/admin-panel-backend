@@ -7,7 +7,7 @@
     "docker:up": "docker-compose up",
     "docker:build": "docker-compose up --build",
     "docker:down": "docker-compose down",
-    "build": "tsc",
+    "build": "tsc --skipLibCheck",
     "start": "npx prisma migrate deploy && node dist/app.js"
   },
   "prisma": {
