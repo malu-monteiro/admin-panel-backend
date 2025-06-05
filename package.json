@@ -1,6 +1,7 @@
 {
   "name": "admin-panel",
   "version": "1.0.0",
+  "main": "dist/app.js",
   "scripts": {
     "dev": "ts-node -r tsconfig-paths/register src/app.ts",
     "docker:up": "docker-compose up",
