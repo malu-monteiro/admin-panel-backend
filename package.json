@@ -4,6 +4,7 @@
   "main": "dist/app.js",
   "scripts": {
     "dev": "ts-node -r tsconfig-paths/register src/app.ts",
+    "seed:dev": "prisma migrate dev && prisma db seed",
     "docker:up": "docker-compose up",
     "docker:build": "docker-compose up --build",
     "docker:down": "docker-compose down",

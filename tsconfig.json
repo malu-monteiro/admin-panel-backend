@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
+    "rootDir": "src",
     "paths": {
       "@/*": ["src/*"]
     },
-    "typeRoots": ["./node_modules/@types", "src/modules/availability/types"],
     "target": "ES2020",
     "module": "commonjs",
     "strict": true,
@@ -13,6 +13,6 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist"
   },
-  "include": ["src/**/*", "src/**/*.d.ts", "prisma/seed.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
