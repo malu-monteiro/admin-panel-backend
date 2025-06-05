@@ -1,4 +1,4 @@
-import { WorkingHoursRepository } from "../repositories/workingHours-repository";
+import { WorkingHoursRepository } from "../repositories/working-hours-repository";
 
 export const WorkingHoursService = {
   async getWorkingHours() {

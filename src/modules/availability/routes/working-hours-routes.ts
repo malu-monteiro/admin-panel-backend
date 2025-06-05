@@ -1,9 +1,10 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
 import { UpdateWorkingHoursBody } from "../types";
+
 import { AVAILABILITY_CONSTANTS } from "../constants/availability";
 
-import { WorkingHoursController } from "../controllers/workingHours-controller";
+import { WorkingHoursController } from "../controllers/working-hours-controller";
 
 function validateWorkingHours(
   startTime: string,

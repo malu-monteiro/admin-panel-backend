@@ -27,7 +27,7 @@ model Service {
 
 model Availability {
     id           Int           @id @default(autoincrement())
-    date         DateTime      @unique
+    date         DateTime      @db.Timestamptz
     isBlocked    Boolean       @default(false)
     blockedSlots BlockedSlot[]
 }
@@ -78,9 +78,9 @@ model EmailVerificationToken {
 }
 
 model Appointment {
-    id        String   @id @default(uuid())
+    id        String   @id @default(uuid()) @db.Uuid
     service   String
-    date      DateTime
+    date      DateTime @db.Timestamptz
     time      String
     name      String
     email     String

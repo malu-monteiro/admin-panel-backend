@@ -1,10 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-
-import { BlockController } from "../controllers/blocks-controller";
 import {
   CreateBlockBody,
   DeleteBlockParams,
@@ -12,10 +7,10 @@ import {
   BlockReturnedFromGetBlocks,
 } from "../types";
 
-import { SYSTEM_TIMEZONE } from "../constants/timezone";
+import dayjs from "@/utils/dayjs";
+import { SYSTEM_TIMEZONE } from "@/utils/timezone";
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import { BlockController } from "../controllers/blocks-controller";
 
 export async function blockRoutes(fastify: FastifyInstance) {
   fastify.get(

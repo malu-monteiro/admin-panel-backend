@@ -22,7 +22,7 @@ CREATE TABLE "Service" (
 -- CreateTable
 CREATE TABLE "Availability" (
     "id" SERIAL NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
+    "date" TIMESTAMPTZ NOT NULL,
     "isBlocked" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Availability_pkey" PRIMARY KEY ("id")
@@ -77,9 +77,9 @@ CREATE TABLE "email_verification_tokens" (
 
 -- CreateTable
 CREATE TABLE "appointments" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "service" TEXT NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
+    "date" TIMESTAMPTZ NOT NULL,
     "time" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -93,9 +93,6 @@ CREATE TABLE "appointments" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "working_hours_startTime_endTime_key" ON "working_hours"("startTime", "endTime");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Availability_date_key" ON "Availability"("date");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
