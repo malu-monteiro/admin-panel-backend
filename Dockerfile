@@ -8,14 +8,15 @@ ENV DATABASE_URL=$DATABASE_URL
 WORKDIR /app
 
 COPY package*.json ./
-COPY prisma ./prisma/
 COPY tsconfig.json ./ 
+COPY prisma ./prisma/
 
 # Install project dependencies
 RUN npm install
 
 # Build the TypeScript application to JavaScript
 RUN npm run build
+RUN npm run build:seed
 
 # Generate Prisma client and apply database migrations
 RUN npx prisma generate
