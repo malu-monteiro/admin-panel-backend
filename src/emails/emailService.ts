@@ -5,7 +5,7 @@ import {
   AppointmentConfirmationTemplateParams,
 } from "./templates";
 
-import { AppointmentConfirmationEmailData } from "@/modules/appointments/types";
+import { AppointmentConfirmationEmailData } from "../modules/appointments/types";
 
 export const emailService = {
   async sendAppointmentConfirmation(data: AppointmentConfirmationEmailData) {

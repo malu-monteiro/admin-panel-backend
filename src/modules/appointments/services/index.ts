@@ -1,4 +1,4 @@
-import { emailService } from "@/emails/emailService";
+import { emailService } from "../../../emails/emailService";
 
 import { AppointmentRepository } from "../repositories";
 

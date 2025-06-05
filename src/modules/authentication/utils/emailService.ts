@@ -1,5 +1,5 @@
-import { emailTemplates } from "@/emails/templates";
 import transporter from "./emailTransporter";
+import { emailTemplates } from "../../../emails/templates";
 
 const SYSTEM_EMAIL = '"Pawfaction" <no-reply@example.com>';
 

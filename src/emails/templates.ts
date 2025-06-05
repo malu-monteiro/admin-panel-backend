@@ -1,5 +1,6 @@
-import { EmailTemplateParams } from "@/modules/authentication/types";
-import { AppointmentConfirmationTemplateParams } from "@/modules/appointments/types";
+import { EmailTemplateParams } from "../modules/authentication/types";
+
+import { AppointmentConfirmationTemplateParams } from "../modules/appointments/types";
 
 export const emailTemplates = {
   passwordReset: ({ link }: EmailTemplateParams) => ({
