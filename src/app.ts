@@ -23,7 +23,10 @@ const fastify = Fastify({
 });
 
 fastify.register(fastifyCors, {
-  origin: [process.env.FRONTEND_URL || "http://localhost:5173"],
+  origin: [
+    process.env.FRONTEND_URL || "http://localhost:5173",
+    "https://admin-panel-frontend-phi.vercel.app",
+  ],
   methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Origin", "Content-Type", "Authorization", "Accept"],
   exposedHeaders: ["Authorization"],
