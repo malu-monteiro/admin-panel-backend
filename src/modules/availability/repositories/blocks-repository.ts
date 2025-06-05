@@ -9,7 +9,7 @@ export const BlockRepository = {
   },
 
   findBlockByDate(date: Date) {
-    return prisma.availability.findUnique({
+    return prisma.availability.findFirst({
       where: { date },
       include: { blockedSlots: true },
     });

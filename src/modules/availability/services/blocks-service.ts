@@ -1,15 +1,11 @@
-import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
+import dayjs from "@/utils/dayjs";
+import { SYSTEM_TIMEZONE } from "@/utils/timezone";
 
 import { Prisma } from "@prisma/client";
-
-import { SYSTEM_TIMEZONE } from "../constants/timezone";
 
 import { CreateBlockBody } from "../types";
 
 import { BlockRepository } from "../repositories/blocks-repository";
-
-dayjs.extend(timezone);
 
 export const BlockService = {
   async getBlocks(startDate: Date, endDate: Date) {

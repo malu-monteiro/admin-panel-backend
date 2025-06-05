@@ -1,8 +1,6 @@
 import dotenv from "dotenv";
 
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
+import "@/utils/dayjs";
 
 import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
@@ -12,9 +10,6 @@ import { authenticationRoutes } from "./modules/authentication";
 import { availabilityRoutes } from "./modules/availability";
 import { appointmentRoutes } from "./modules/appointments/routes";
 import { analyticsRoutes } from "./modules/analyctics/routes";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 dotenv.config();
 
