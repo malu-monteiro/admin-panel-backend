@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 
+import { Prisma } from "@prisma/client";
+
 import { SYSTEM_TIMEZONE } from "../constants/timezone";
 
 import { CreateBlockBody } from "../types";
@@ -26,7 +28,7 @@ export const BlockService = {
         }
 
         const overlappingSlot = existingBlock.blockedSlots.some(
-          (slot) =>
+          (slot: Prisma.BlockedSlotGetPayload<{}>) =>
             (slot.startTime <= startTime && slot.endTime > startTime) ||
             (slot.startTime < endTime && slot.endTime >= endTime) ||
             (startTime <= slot.startTime && endTime >= slot.endTime)

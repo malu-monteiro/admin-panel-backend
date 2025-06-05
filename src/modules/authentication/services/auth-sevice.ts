@@ -9,6 +9,7 @@ import {
 } from "../types";
 
 import prisma from "../../../prisma";
+import { Prisma } from "@prisma/client";
 
 import { compare, hash } from "bcryptjs";
 
@@ -101,7 +102,7 @@ export const AuthService = {
     if (verificationToken.expiresAt < new Date())
       throw new Error("Expired token");
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       if (verificationToken.newEmail) {
         await tx.admin.update({
           where: { id: verificationToken.adminId },

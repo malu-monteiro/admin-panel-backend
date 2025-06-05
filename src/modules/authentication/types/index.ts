@@ -1,12 +1,12 @@
 import "fastify";
 
-import { Admin } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 import { JwtPayload as DefaultJwtPayload } from "jsonwebtoken";
 
 declare module "fastify" {
   interface FastifyRequest {
-    admin: Admin;
+    admin: Prisma.AdminGetPayload<{}>;
   }
 }
 

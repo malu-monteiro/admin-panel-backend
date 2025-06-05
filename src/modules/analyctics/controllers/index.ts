@@ -1,5 +1,8 @@
 import prisma from "@/prisma";
+
 import { FastifyReply, FastifyRequest } from "fastify";
+
+import { ServiceCountResult, TimeCountResult } from "../types";
 
 export async function getMostBookedServicesHandler(
   request: FastifyRequest,
@@ -18,7 +21,7 @@ export async function getMostBookedServicesHandler(
       },
     });
 
-    const formattedData = serviceCounts.map((item) => ({
+    const formattedData = serviceCounts.map((item: ServiceCountResult) => ({
       name: item.service,
       value: item._count.service,
     }));
@@ -48,7 +51,7 @@ export async function getMostBookedTimesHandler(
       },
     });
 
-    const formattedData = timeCounts.map((item) => ({
+    const formattedData = timeCounts.map((item: TimeCountResult) => ({
       time: item.time,
       appointments: item._count.time,
     }));

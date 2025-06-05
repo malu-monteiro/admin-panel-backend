@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export interface CreateWorkingHoursBody {
   startTime: string;
   endTime: string;
@@ -30,3 +32,7 @@ export interface CreateServiceBody {
 export interface DeleteServiceParams {
   id: string;
 }
+
+export type BlockReturnedFromGetBlocks = Prisma.AvailabilityGetPayload<{
+  include: { blockedSlots: true };
+}>;

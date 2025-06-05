@@ -5,7 +5,12 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
 import { BlockController } from "../controllers/blocks-controller";
-import { CreateBlockBody, DeleteBlockParams, GetBlocksQuery } from "../types";
+import {
+  CreateBlockBody,
+  DeleteBlockParams,
+  GetBlocksQuery,
+  BlockReturnedFromGetBlocks,
+} from "../types";
 
 import { SYSTEM_TIMEZONE } from "../constants/timezone";
 
@@ -38,7 +43,7 @@ export async function blockRoutes(fastify: FastifyInstance) {
         const blocks = await BlockController.getBlocks(parsedStart, parsedEnd);
 
         return reply.status(200).send(
-          blocks.map((block) => ({
+          blocks.map((block: BlockReturnedFromGetBlocks) => ({
             ...block,
             date: dayjs(block.date).tz(SYSTEM_TIMEZONE).toISOString(),
           }))
@@ -59,11 +64,9 @@ export async function blockRoutes(fastify: FastifyInstance) {
       try {
         const result = await BlockController.createBlock(request.body);
         return reply.status(201).send(result);
-      } catch (error: any) {
+      } catch (error: unknown) {
         fastify.log.error("Error creating block:", error);
-        return reply.status(400).send({
-          error: error.message || "Error creating block",
-        });
+        return reply.status(400).send({ error: "Error creating block" });
       }
     }
   );
@@ -84,7 +87,7 @@ export async function blockRoutes(fastify: FastifyInstance) {
 
         await BlockController.deleteBlock(type as "day" | "slot", parsedId);
         return { message: "Block removed successfully" };
-      } catch (error) {
+      } catch (error: unknown) {
         fastify.log.error("Error removing block:", error);
         return reply.status(500).send({ error: "Error removing block" });
       }
