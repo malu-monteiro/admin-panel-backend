@@ -25,4 +25,4 @@ RUN npx prisma migrate deploy
 COPY . .
 
 # Command to start the application in production
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
