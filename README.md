@@ -3,7 +3,7 @@ Admin Panel Backend
 </h1>
 
 <div align="center">
-Backend for an online scheduling system, developed with Node.js, Fastify, Prisma, and SQLite.
+Backend for an online scheduling system, developed with Node.js, Fastify, Prisma, and PostgreSQL.
 </div>
 <br>
 <p align="center">
@@ -11,7 +11,7 @@ Backend for an online scheduling system, developed with Node.js, Fastify, Prisma
 <img src="https://img.shields.io/badge/Node.js-22.14.1-339933?style=for-the-badge&logo=nodedotjs&logoColor=339933" alt="Node.js" />
 <img src="https://img.shields.io/badge/Fastify-5.2.1-000000?style=for-the-badge&logo=fastify&logoColor=000000" alt="Fastify" />
 <img src="https://img.shields.io/badge/Prisma-6.4.1-2D3748?style=for-the-badge&logo=prisma&logoColor=2D3748" alt="Prisma" />
-<img src="https://img.shields.io/badge/SQLite-3-blue?style=for-the-badge&logo=sqlite&logoColor=blue" alt="SQLite" />
+<img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?style=for-the-badge&logo=postgresql&logoColor=4169E1" alt="PostgreSQL" /> 
 </p>
 
 
@@ -34,6 +34,7 @@ Before you begin, make sure you have installed:
 
 - [Node.js](https://nodejs.org/) (version 20 or higher recommended)  
 - [npm](https://www.npmjs.com/get-npm) (Node package manager)  
+- [PostgreSQL](https://www.postgresql.org/download/) (version 12 or higher recommended)
 - [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/) (optional, for containerized running)
 
 ---
@@ -57,8 +58,9 @@ npm install
 ```bash
 cp .env.example .env
 ```
+Important: Make sure your `DATABASE_URL` in the `.env` file is set up correctly for PostgreSQL, e.g., `DATABASE_URL="postgresql://user:password@host:port/database"`.
 
-4. Run Prisma migrations to create the SQLite database:
+4. Run Prisma migrations to create the PostgreSQL database schema:
 ```bash
 npx prisma migrate dev --name init
 ```
@@ -99,8 +101,7 @@ http://localhost:3000
 ---
 
 ## 💾 Database Management
-Prisma Studio
-To visually browse and edit your database, run:
+Prisma Studio (to visually browse and edit your database), run:
 
 ```bash
 npx prisma studio
@@ -121,7 +122,7 @@ Create a `.env` file in the backend root directory based on `.env.example` with 
 ```bash
 NODE_ENV=development
 PORT=3000
-DATABASE_URL="file:./prisma/dev.db"
+DATABASE_URL="postgresql://user:password@localhost:5432/your_database_name?schema=public"
 JWT_SECRET=your_jwt_secret_here
 FRONTEND_URL=http://localhost:5173
 EMAIL_HOST=smtp.example.com
@@ -132,7 +133,7 @@ EMAIL_PASSWORD=your_email_password
 
 - `NODE_ENV`: Environment (development, production)  
 - `PORT`: Port where the backend will run  
-- `DATABASE_URL`: Path to the SQLite database  
+- `DATABASE_URL`: Connection string for your PostgreSQL database
 - `JWT_SECRET`: Secret key for JWT authentication  
 - `FRONTEND_URL`: Frontend URL for CORS and redirects  
 - `EMAIL_HOST`: SMTP host for sending emails  
@@ -147,7 +148,7 @@ EMAIL_PASSWORD=your_email_password
 - [Node.js](https://nodejs.org/)  
 - [Fastify](https://www.fastify.io/)  
 - [Prisma](https://www.prisma.io/)  
-- [SQLite](https://www.sqlite.org/index.html)  
+- [PostgreSQL](https://www.postgresql.org/)  
 - [Docker](https://www.docker.com/)  
 - [TypeScript](https://www.typescriptlang.org/)  
 - [Nodemailer](https://nodemailer.com/)  
