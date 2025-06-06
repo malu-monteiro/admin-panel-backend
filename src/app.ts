@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 
+import "module-alias/register";
+
 import "@/utils/dayjs";
 
 import Fastify from "fastify";
